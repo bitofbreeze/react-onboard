@@ -10,6 +10,12 @@
 npm install --save react-onboard
 ```
 
+or
+
+```bash
+yarn add react-onboard
+```
+
 ## Usage
 
 ```tsx
