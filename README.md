@@ -4,7 +4,9 @@
 
 [![NPM](https://img.shields.io/npm/v/react-onboard.svg)](https://www.npmjs.com/package/react-onboard) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-**react-onboard** lets you easily present a set of messages that are associated with components in your app to the user. Messages go away after a user has acknowledged them (i.e., clicked a highlight or hovered over it for more than a second). It interoperates with any way you show notifications (e.g., react-toastify) and with any wrapper component to highlight components.
+<img alt="Screen Shot 2020-06-30 at 9 25 34 PM" src="https://user-images.githubusercontent.com/9855031/86202989-9dd7db80-bb18-11ea-8b96-41bfbe510ff6.png">
+
+**react-onboard** lets you easily present a set of messages that are associated with components in your app to the user. Messages don't show up until all related components are rendered at the same time and only one shows up at a time. Messages go away after a user has acknowledged them (i.e., clicked a highlight or hovered over it for more than a second). It interoperates with any way you show notifications and with any wrapper component to highlight components.
 
 ## Install
 
@@ -84,6 +86,8 @@ export default function App() {
   )
 }
 ```
+
+<img alt="example" src="https://user-images.githubusercontent.com/9855031/86202729-f490e580-bb17-11ea-9bc8-e458d5a5f51d.png">
 
 ## License
 
