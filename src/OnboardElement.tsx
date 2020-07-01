@@ -32,8 +32,8 @@ export const OnboardElement: FC<Props> = ({ id, children }) => {
   const [dismissTimeout, setDismissTimeout] = useState<number>()
 
   const newChildren = cloneElement(children as any, {
-    style: { visibility: 'visible', ...(children as any).props.style },
-    ...(children as any).props
+    ...(children as any).props,
+    style: { visibility: 'visible', ...(children as any).props.style }
   })
 
   return (
