@@ -74,12 +74,12 @@ const useOnboardProvider = (
     activeMessage,
     onElementRender: (elementId: string) => {
       if (!renderedElements.includes(elementId)) {
-        setRenderedElements([...renderedElements, elementId])
+        setRenderedElements((elements) => [...elements, elementId])
       }
     },
     onElementUnrender: (elementId: string) => {
-      setRenderedElements(
-        renderedElements.filter((element) => element !== elementId)
+      setRenderedElements((elements) =>
+        elements.filter((element) => element !== elementId)
       )
     },
     ackMessage,
