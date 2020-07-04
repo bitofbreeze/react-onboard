@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import { OnboardElement } from '.'
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(OnboardElement).toBeTruthy()
   })
 })
