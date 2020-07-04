@@ -1,32 +1,34 @@
 import React, { useState, useEffect, cloneElement, FC } from 'react'
 import { useOnboard } from './OnboardProvider'
-
-interface Props {
-  id: string
-}
+import { Item } from './types'
 
 /**
  * Wrapper for element to be highlighted with badge during an onboard message
  */
-export const OnboardElement: FC<Props> = ({ id, children }) => {
+export const OnboardElement: FC<Item> = ({ id, children }) => {
   const [isActive, setIsActive] = useState(false)
   const {
-    addToggle,
-    activeMessageId,
+    onElementRender,
+    onElementUnrender,
+    activeMessage,
     ackMessage,
-    HighlightElement
+    HighlightComponent
   } = useOnboard()
 
   useEffect(() => {
-    addToggle(id, setIsActive)
+    onElementRender(id)
 
-    // TODO: Remove when unmounted
+    return () => onElementUnrender(id)
   }, [])
 
+  useEffect(() => {
+    setIsActive(Boolean(activeMessage?.elementIds?.includes(id)))
+
+    return () => setIsActive(false)
+  }, [activeMessage])
+
   const dismiss = () => {
-    if (isActive) {
-      ackMessage(activeMessageId!)
-    }
+    if (isActive) ackMessage(activeMessage!.id!)
   }
 
   const [dismissTimeout, setDismissTimeout] = useState<number>()
@@ -37,7 +39,7 @@ export const OnboardElement: FC<Props> = ({ id, children }) => {
   })
 
   return (
-    <HighlightElement
+    <HighlightComponent
       onClick={() => {
         dismiss()
         window.clearTimeout(dismissTimeout)
@@ -54,6 +56,6 @@ export const OnboardElement: FC<Props> = ({ id, children }) => {
       style={{ visibility: isActive ? 'initial' : 'hidden' }}
     >
       {newChildren}
-    </HighlightElement>
+    </HighlightComponent>
   )
 }

@@ -59,7 +59,7 @@ export default function App() {
           })
         }}
         ackCallback={({ messageId }) => toast.dismiss(messageId)}
-        HighlightElement={
+        HighlightComponent={
           (({ children, ...rest }) => (
             <Badge
               anchorOrigin={{
