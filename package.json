@@ -1,9 +1,12 @@
 {
   "name": "react-onboard",
-  "version": "1.1.4",
+  "version": "1.1.3",
   "description": "Create onboarding messages and highlight related components",
   "author": "CSFlorin",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "repository": "git://github.com/CSFlorin/react-onboard.git/",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
