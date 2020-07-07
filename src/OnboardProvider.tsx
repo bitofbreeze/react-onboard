@@ -23,15 +23,25 @@ const useOnboardProvider = (
 
   const ackMessage = (id: string) => {
     // This is called twice in some configs because clicking element highlight calls it and then dismissing the message from that calls it again
-    if (id !== undefined && id !== null) {
-      !messagesAcked.includes(id) && setMessagesAcked([...messagesAcked, id])
-      if (activeMessage?.id === id) {
-        ackCallback({ messageId: activeMessage.id })
-        setActiveMessage(null)
-      }
+    if (id !== undefined && id !== null && !messagesAcked.includes(id)) {
+      setMessagesAcked([...messagesAcked, id])
+      return true
     }
+    return false
   }
 
+  // When a message is acked, execute ackCallback and then unset active message
+  useEffect(() => {
+    if (
+      activeMessage !== null &&
+      activeMessage.id === messagesAcked[messagesAcked.length - 1]
+    ) {
+      ackCallback({ messageId: activeMessage.id })
+      setActiveMessage(null)
+    }
+  }, [messagesAcked])
+
+  // When active message has been unset or a new element used in some message renders, show another
   useEffect(() => {
     // Tells us if one of the dependencies changed or component was unmounted to avoid race
     let didCancel = false
@@ -58,8 +68,9 @@ const useOnboardProvider = (
     return () => {
       didCancel = true
     }
-  }, [activeMessage, renderedElements, messagesAcked]) // Execute when another message has been acked or a new element used in some message renders
+  }, [activeMessage, renderedElements])
 
+  // When active message has been set, execute its showCallback
   useEffect(() => {
     if (activeMessage !== null) {
       showCallback({
