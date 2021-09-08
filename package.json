@@ -7,10 +7,18 @@
   "types": "./lib/esm/index.d.ts",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^27.0.1",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "babel-jest": "^27.1.0",
+    "jest": "^27.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "typescript": "^4.4.2"
   },
   "peerDependencies": {
@@ -20,7 +28,8 @@
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
-    "build:cjs": "tsc --module commonjs --outDir lib/cjs"
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs",
+    "test": "yarn jest --env=jsdom"
   },
   "files": [
     "/lib"
