@@ -29,6 +29,8 @@
         "@typescript-eslint/no-use-before-define": ["error"],
         "max-len": "off",
         "react/jsx-props-no-spreading": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+        "no-confusing-arrow": "off"
     }
 }
