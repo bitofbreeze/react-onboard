@@ -22,18 +22,21 @@ export const OnboardElement: FC<OnboardElementProps> = ({
     HighlightComponent,
   } = useOnboard();
 
+  // Alert provider when this element is rendered
   useEffect(() => {
     onElementRender(id);
 
     return () => onElementUnrender(id);
   }, []);
 
+  // Make the highlight component visible when a message that uses this element is active
   useEffect(() => {
     setIsActive(Boolean(activeMessage?.elementIds?.includes(id)));
 
     return () => setIsActive(false);
   }, [activeMessage]);
 
+  // Allow dismissing the related message by interacting with this element
   const dismiss = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (isActive) ackMessage(activeMessage!.id);
