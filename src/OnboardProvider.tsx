@@ -32,7 +32,7 @@ const useOnboardProvider = (
     return false;
   };
 
-  // When a message is acked, execute ackCallback and then unset active message
+  // When a message is acked, execute ackCallback; then unset active message
   useEffect(() => {
     if (
       activeMessage !== null
