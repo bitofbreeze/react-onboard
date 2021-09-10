@@ -24,7 +24,7 @@ const useOnboardProvider = (
   const [activeMessage, setActiveMessage] = useState<Message | null>(null);
 
   const ackMessage = (id: string) => {
-    // This is called twice in some configs because clicking element highlight calls it and then dismissing the message from that calls it again
+    // Note: This is called twice in some configs because clicking element highlight calls it and then dismissing the message from that calls it again
     if (id != null && !messagesAcked.includes(id)) {
       setMessagesAcked([...messagesAcked, id]);
       return true;
