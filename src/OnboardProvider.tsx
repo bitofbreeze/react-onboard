@@ -1,77 +1,81 @@
-import React, { useState, useEffect, FC } from 'react'
-import { createContext } from './createContext'
-import { useLocalStorage } from './useLocalStorage'
-import { OnboardContext, Message, ShowCallback, AckCallback } from './types'
+import React, { useState, useEffect, FC } from 'react';
+import { createContext } from './createContext';
+import { useLocalStorage } from './useLocalStorage';
+import {
+  OnboardContext, Message, ShowCallback, AckCallback,
+} from './types';
 
-const [useOnboard, OnboardContextProvider] = createContext<OnboardContext>()
+const [useOnboard, OnboardContextProvider] = createContext<OnboardContext>();
 
 const useOnboardProvider = (
   messages: Array<Message>,
   showCallback: ShowCallback,
   ackCallback: AckCallback,
-  HighlightComponent: any
+  HighlightComponent: any,
 ) => {
   // Set of names of messages that have been seen
   const [messagesAcked, setMessagesAcked] = useLocalStorage<Array<string>>(
-    `messagesAcked`,
-    []
-  )
+    'messagesAcked',
+    [],
+  );
   // All elements currently rendered
-  const [renderedElements, setRenderedElements] = useState<Array<string>>([])
+  const [renderedElements, setRenderedElements] = useState<Array<string>>([]);
   // Source of truth
-  const [activeMessage, setActiveMessage] = useState<Message | null>(null)
+  const [activeMessage, setActiveMessage] = useState<Message | null>(null);
 
   const ackMessage = (id: string) => {
     // This is called twice in some configs because clicking element highlight calls it and then dismissing the message from that calls it again
     if (id !== undefined && id !== null && !messagesAcked.includes(id)) {
-      setMessagesAcked([...messagesAcked, id])
-      return true
+      setMessagesAcked([...messagesAcked, id]);
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   // When a message is acked, execute ackCallback and then unset active message
   useEffect(() => {
     if (
-      activeMessage !== null &&
-      activeMessage.id === messagesAcked[messagesAcked.length - 1]
+      activeMessage !== null
+      && activeMessage.id === messagesAcked[messagesAcked.length - 1]
     ) {
-      ackCallback({ messageId: activeMessage.id })
-      setActiveMessage(null)
+      ackCallback({ messageId: activeMessage.id });
+      setActiveMessage(null);
     }
-  }, [messagesAcked])
+  }, [messagesAcked]);
 
   // When active message has been unset or a new element used in some message renders, show another
   useEffect(() => {
     // Tells us if one of the dependencies changed or component was unmounted to avoid race
-    let didCancel = false
+    let didCancel = false;
 
     if (activeMessage === null && !didCancel) {
       messages
         .filter(({ id }) => !messagesAcked.includes(id))
-        .some(({ id, children, elementIds, delay }) => {
+        .some(({
+          id, children, elementIds, delay,
+        }) => {
           const unrenderedElements = elementIds?.filter(
-            (elementId) => !renderedElements.includes(elementId)
-          )
+            (elementId) => !renderedElements.includes(elementId),
+          );
           // Show message if it has no associated elements or all are shown at the same time
           if (
-            unrenderedElements === undefined ||
-            unrenderedElements.length === 0
+            unrenderedElements === undefined
+            || unrenderedElements.length === 0
           ) {
             setTimeout(
               () => setActiveMessage({ id, elementIds, children }),
-              delay ?? 0
-            )
-            return true
+              delay ?? 0,
+            );
+            return true;
           }
-          return false
-        })
+          return false;
+        });
     }
 
     return () => {
-      didCancel = true
-    }
-  }, [activeMessage, renderedElements])
+      didCancel = true;
+    };
+  }, [activeMessage, renderedElements]);
 
   // When active message has been set, execute its showCallback
   useEffect(() => {
@@ -79,27 +83,25 @@ const useOnboardProvider = (
       showCallback({
         messageId: activeMessage.id,
         children: activeMessage.children,
-        onAck: () => ackMessage(activeMessage.id)
-      })
+        onAck: () => ackMessage(activeMessage.id),
+      });
     }
-  }, [activeMessage])
+  }, [activeMessage]);
 
   return {
     activeMessage,
     onElementRender: (elementId: string) => {
       if (!renderedElements.includes(elementId)) {
-        setRenderedElements((elements) => [...elements, elementId])
+        setRenderedElements((elements) => [...elements, elementId]);
       }
     },
     onElementUnrender: (elementId: string) => {
-      setRenderedElements((elements) =>
-        elements.filter((element) => element !== elementId)
-      )
+      setRenderedElements((elements) => elements.filter((element) => element !== elementId));
     },
     ackMessage,
-    HighlightComponent
-  }
-}
+    HighlightComponent,
+  };
+};
 
 export const OnboardProvider: FC<{
   messages: Array<Message>
@@ -111,17 +113,17 @@ export const OnboardProvider: FC<{
   messages,
   showCallback,
   ackCallback,
-  HighlightComponent
+  HighlightComponent,
 }) => {
-    const value = useOnboardProvider(
-      messages,
-      showCallback,
-      ackCallback,
-      HighlightComponent
-    )
-    return (
-      <OnboardContextProvider value={value}>{children}</OnboardContextProvider>
-    )
-  }
+  const value = useOnboardProvider(
+    messages,
+    showCallback,
+    ackCallback,
+    HighlightComponent,
+  );
+  return (
+    <OnboardContextProvider value={value}>{children}</OnboardContextProvider>
+  );
+};
 
-export { useOnboard }
+export { useOnboard };

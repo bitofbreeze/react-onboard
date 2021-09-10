@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import {
+  Dispatch, SetStateAction, useState, useEffect,
+} from 'react';
 
-const isClient = typeof window === "object";
+const isClient = typeof window === 'object';
 
 /**
  * Set and get a value in local storage
@@ -8,7 +10,7 @@ const isClient = typeof window === "object";
  */
 export const useLocalStorage = <ValueType>(
   key: string,
-  initialValue?: ValueType
+  initialValue?: ValueType,
 ): [ValueType, Dispatch<SetStateAction<ValueType>>] => {
   // Only get stored value first render
   const [storedValue, setStoredValue] = useState(() => {
