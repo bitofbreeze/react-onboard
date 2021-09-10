@@ -4,6 +4,8 @@ import {
 } from '@testing-library/react';
 import { OnboardElement, OnboardProvider } from '..';
 
+const HighlightComponent: React.FC = ({ children, ...rest }) => <div data-testid="highlight-component" {...rest}>{children}</div>;
+
 test('Onboard message is shown when it does not depend on any elements and can be dismissed directly', async () => {
   const Component = () => {
     const [message, setMessage] = useState<React.ReactNode>(null);
@@ -17,7 +19,7 @@ test('Onboard message is shown when it does not depend on any elements and can b
         // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
         showCallback={({ children, onAck }) => { setMessage(<div role="button" data-testid="message" onClick={onAck}>{children}</div>); }}
         ackCallback={() => { setMessage(null); }}
-        HighlightComponent={null}
+        HighlightComponent={HighlightComponent}
       >
         {message}
       </OnboardProvider>
@@ -45,7 +47,7 @@ test('Onboard message is shown when it depends on an already present element and
         }]}
         showCallback={({ children }) => { setMessage(<div data-testid="message">{children}</div>); }}
         ackCallback={() => { setMessage(null); }}
-        HighlightComponent={({ children, ...rest }) => <div data-testid="highlight-component" {...rest}>{children}</div>}
+        HighlightComponent={HighlightComponent}
       >
         <OnboardElement id="welcome element">
           <div>WELCOME</div>
@@ -78,7 +80,7 @@ test('Onboard message is shown when it depends on an already present element and
         }]}
         showCallback={({ children }) => { setMessage(<div data-testid="message">{children}</div>); }}
         ackCallback={() => { setMessage(null); }}
-        HighlightComponent={({ children, ...rest }) => <div data-testid="highlight-component" {...rest}>{children}</div>}
+        HighlightComponent={HighlightComponent}
       >
         <OnboardElement id="welcome element">
           <div>WELCOME</div>

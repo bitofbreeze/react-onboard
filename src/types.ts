@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export interface Item {
   // Unique name
@@ -19,7 +19,7 @@ export interface OnboardContext {
   onElementRender: (elementId: string) => void;
   onElementUnrender: (elementId: string) => void;
   ackMessage: (id: string) => void;
-  HighlightComponent: any;
+  HighlightComponent: React.FC<React.HTMLAttributes<HTMLDivElement>>;
 }
 
 export type ShowCallback = ({

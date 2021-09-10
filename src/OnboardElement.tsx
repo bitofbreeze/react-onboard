@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, cloneElement, FC,
+  useState, useEffect, cloneElement, FC, ReactElement,
 } from 'react';
 import { useOnboard } from './OnboardProvider';
 import { OnboardElementProps } from './types';
@@ -35,14 +35,15 @@ export const OnboardElement: FC<OnboardElementProps> = ({
   }, [activeMessage]);
 
   const dismiss = () => {
-    if (isActive) ackMessage(activeMessage!.id!);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (isActive) ackMessage(activeMessage!.id);
   };
 
   const [dismissTimeout, setDismissTimeout] = useState<number>();
 
-  const newChildren = cloneElement(children as any, {
-    ...(children as any).props,
-    style: { visibility: 'initial', ...(children as any).props.style },
+  const newChildren = cloneElement(children as ReactElement, {
+    ...(children as ReactElement).props,
+    style: { visibility: 'initial', ...(children as ReactElement).props.style },
   });
 
   return (

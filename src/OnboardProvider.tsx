@@ -11,7 +11,7 @@ const useOnboardProvider = (
   messages: Array<Message>,
   showCallback: ShowCallback,
   ackCallback: AckCallback,
-  HighlightComponent: any,
+  HighlightComponent: React.FC,
 ) => {
   // Set of names of messages that have been seen
   const [messagesAcked, setMessagesAcked] = useLocalStorage<Array<string>>(
@@ -25,7 +25,7 @@ const useOnboardProvider = (
 
   const ackMessage = (id: string) => {
     // This is called twice in some configs because clicking element highlight calls it and then dismissing the message from that calls it again
-    if (id !== undefined && id !== null && !messagesAcked.includes(id)) {
+    if (id != null && !messagesAcked.includes(id)) {
       setMessagesAcked([...messagesAcked, id]);
       return true;
     }
@@ -107,7 +107,7 @@ export const OnboardProvider: FC<{
   messages: Array<Message>
   showCallback: ShowCallback
   ackCallback: AckCallback
-  HighlightComponent: any
+  HighlightComponent: React.FC
 }> = ({
   children,
   messages,

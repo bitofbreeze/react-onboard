@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Type-safe createContext
  */
-export const createContext = <ContextType>(): any => {
+export const createContext = <ContextType>(): [() => ContextType, React.Provider<ContextType | undefined>] => {
   const Context = React.createContext<ContextType | undefined>(undefined);
 
   const useContext = () => {
@@ -13,5 +13,5 @@ export const createContext = <ContextType>(): any => {
 
     return value;
   };
-  return [useContext, Context.Provider] as const;
+  return [useContext, Context.Provider];
 };

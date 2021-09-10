@@ -25,6 +25,7 @@ export const useLocalStorage = <ValueType>(
         ? initialValue
         : JSON.parse(localStorageValue);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       return initialValue;
     }
@@ -36,6 +37,7 @@ export const useLocalStorage = <ValueType>(
     } catch (error) {
       // If user is in private mode or has storage restriction
       // localStorage can throw. JSON.stringify can also throw.
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   }, [storedValue]);
